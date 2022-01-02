@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="1003.0" stylesheets="@../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.ui.userMain.UserController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <MenuBar style="-fx-background-color: #211f30;" stylesheets="@../../../resources/dark-theme.css" BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <center>
+            <JFXTabPane stylesheets="@../../../resources/dark-theme.css" BorderPane.alignment="CENTER">
+               <tabs>
+                  <Tab styleClass="tab-main" text="Homepage">
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <HBox prefHeight="509.0" prefWidth="1003.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <VBox prefHeight="509.0" prefWidth="480.0" />
+                                    <VBox fx:id="rightVBox" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="509.0" prefWidth="518.0">
+                                       <children>
+                                          <HBox fx:id="mainBox" alignment="CENTER" prefHeight="174.0" prefWidth="460.0">
+                                             <children>
+                                                <VBox alignment="CENTER" prefHeight="174.0" prefWidth="480.0">
+                                                   <children>
+                                                      <Text fx:id="mainText1" fill="#ffff8d" strokeType="OUTSIDE" strokeWidth="0.0" text="Logged as">
+                                                         <font>
+                                                            <Font size="20.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="mainText2" fill="#ffff8d" layoutX="10.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Logged as">
+                                                         <font>
+                                                            <Font size="20.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <Text fx:id="mainText3" fill="#ffff8d" layoutX="10.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Logged as">
+                                                         <font>
+                                                            <Font size="20.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <HBox alignment="CENTER" prefHeight="71.0" prefWidth="478.0">
+                                                         <children>
+                                                            <JFXButton fx:id="logoutButton" onAction="#loadOut" text="Log out" />
+                                                            <JFXButton fx:id="profileButton" onAction="#loadSettings" text="Profile">
+                                                               <HBox.margin>
+                                                                  <Insets left="50.0" />
+                                                               </HBox.margin>
+                                                            </JFXButton>
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children></HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                       </padding></VBox>
+                                 </children>
+                              </HBox>
+                           </children></AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab styleClass="tab-main" text="Search">
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="481.0" prefWidth="881.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXTextField fx:id="searchBookInput" labelFloat="true" maxWidth="-Infinity" minWidth="-Infinity" onAction="#loadSearchBook" prefHeight="37.0" prefWidth="269.0" promptText="Search Book">
+                                       <VBox.margin>
+                                          <Insets left="40.0" right="40.0" top="25.0" />
+                                       </VBox.margin>
+                                    </JFXTextField>
+                                    <HBox alignment="CENTER" prefHeight="63.0" prefWidth="881.0">
+                                       <children>
+                                          <Text fill="#b5b4b4" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets right="30.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                          <ChoiceBox fx:id="choiceBoxBook" prefHeight="25.0" prefWidth="156.0">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </ChoiceBox>
+                                       </children>
+                                    </HBox>
+                                    <TableView fx:id="tableView" prefHeight="364.0" prefWidth="881.0">
+                                       <columns>
+                                          <TableColumn fx:id="idCol" prefWidth="77.0" resizable="false" text="ID" />
+                                          <TableColumn fx:id="isbnCol" prefWidth="183.0" resizable="false" text="ISBN" />
+                                          <TableColumn fx:id="titluCol" maxWidth="2500.0" minWidth="0.0" prefWidth="175.0" resizable="false" text="Titlu" />
+                                          <TableColumn fx:id="autorCol" maxWidth="406.0" minWidth="-1.0" prefWidth="160.0" resizable="false" text="Autor" />
+                                          <TableColumn fx:id="edituraCol" minWidth="0.0" prefWidth="157.0" resizable="false" text="Editura" />
+                                          <TableColumn fx:id="anCol" maxWidth="2800.0" minWidth="0.0" prefWidth="139.0" resizable="false" text="Anul pubilicarii" />
+                                          <TableColumn fx:id="pagCol" maxWidth="2800.0" prefWidth="100.0" resizable="false" text="Pag" />
+                                       </columns>
+                                       <contextMenu>
+                                          <ContextMenu>
+                                             <items>
+                                                <MenuItem mnemonicParsing="false" text="Add to read books" />
+                                             </items>
+                                             <styleClass>
+                                                <String fx:value="table-context" />
+                                                <String fx:value="colored-context-menu" />
+                                             </styleClass>
+                                          </ContextMenu>
+                                       </contextMenu>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab styleClass="tab-main" text="My books">
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <HBox prefHeight="481.0" prefWidth="881.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="481.0" prefWidth="503.0">
+                                       <children>
+                                          <Text fill="#ffff8d" strokeType="OUTSIDE" strokeWidth="0.0" text="Books read">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                            <content>
+                                              <AnchorPane fx:id="anchorPane1" minHeight="0.0" minWidth="0.0" prefHeight="306.0" prefWidth="486.0">
+                                                   <children>
+                                                      <VBox fx:id="vbox1" maxHeight="-Infinity" prefHeight="305.0" prefWidth="488.0" style="-fx-background-color: #2A2E37;" stylesheets="@../../../resources/dark-theme.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                      </VBox>
+                                                   </children>
+                                                </AnchorPane>
+                                            </content>
+                                          </ScrollPane>
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="481.0" prefWidth="503.0">
+                                       <children>
+                                          <Text fill="#ffff8d" strokeType="OUTSIDE" strokeWidth="0.0" text="Books to read">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                             <content>
+                                                <AnchorPane fx:id="anchorPane2" minHeight="0.0" minWidth="0.0" prefHeight="306.0" prefWidth="486.0">
+                                                   <children>
+                                                      <VBox fx:id="vbox2" maxHeight="-Infinity" prefHeight="305.0" prefWidth="425.0" style="-fx-background-color: #2A2E37;" stylesheets="@../../../resources/dark-theme.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                      </VBox>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                          </ScrollPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs></JFXTabPane>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

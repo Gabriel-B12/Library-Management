@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane fx:id="rootPane" prefHeight="525.0" prefWidth="1034.0" stylesheets="@../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.ui.listBook.ListBookController">
+   <children>
+      <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="525.0" prefWidth="798.0" stylesheets="@../../../resources/dark-theme.css">
+         <children>
+            <TableView fx:id="tableView" layoutX="14.0" prefHeight="525.0" prefWidth="880.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columns>
+                  <TableColumn fx:id="idCol" prefWidth="47.0" resizable="false" text="ID" />
+                <TableColumn fx:id="isbnCol" prefWidth="204.0" resizable="false" text="ISBN" />
+                <TableColumn fx:id="titluCol" maxWidth="2500.0" prefWidth="157.0" resizable="false" text="Titlu" />
+                  <TableColumn fx:id="autorCol" maxWidth="406.0" minWidth="-1.0" prefWidth="191.0" resizable="false" text="Autor" />
+                  <TableColumn fx:id="edituraCol" minWidth="0.0" prefWidth="169.0" resizable="false" text="Editura" />
+                  <TableColumn fx:id="anCol" maxWidth="2800.0" minWidth="0.0" prefWidth="149.0" resizable="false" text="Anul pubilicarii" />
+                  <TableColumn fx:id="pagCol" maxWidth="2800.0" prefWidth="115.0" resizable="false" text="Pag" />
+              </columns>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleRefresh" text="Refresh" />
+                      <MenuItem mnemonicParsing="false" onAction="#handleBookEditOption" text="Edit" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleBookDeleteOption" text="Delete" />
+                    </items>
+                     <styleClass>
+                        <String fx:value="table-context" />
+                        <String fx:value="colored-context-menu" />
+                     </styleClass>
+                  </ContextMenu>
+               </contextMenu>
+            </TableView>
+            
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

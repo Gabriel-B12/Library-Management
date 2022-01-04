@@ -4,13 +4,17 @@
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -216,91 +220,145 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <HBox layoutX="111.0" layoutY="179.0" prefHeight="535.0" prefWidth="963.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox alignment="CENTER" prefHeight="535.0" prefWidth="963.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <VBox fx:id="search1" alignment="CENTER" prefHeight="535.0" prefWidth="320.0" style="-fx-background-color: #211f30;">
-                                       <HBox.margin>
-                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                       </HBox.margin>
+                                    <HBox prefHeight="288.0" prefWidth="963.0">
                                        <children>
-                                          <FontAwesomeIconView glyphName="BOOK" size="50" />
-                                          <JFXTextField fx:id="searchBookInput" labelFloat="true" onAction="#loadSearchBook" promptText="Search Book">
-                                             <VBox.margin>
-                                                <Insets left="20.0" right="20.0" top="30.0" />
-                                             </VBox.margin>
-                                          </JFXTextField>
-                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                          <VBox fx:id="search1" alignment="CENTER" prefHeight="201.0" prefWidth="294.0" style="-fx-background-color: #211f30;">
+                                             <HBox.margin>
+                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                             </HBox.margin>
                                              <children>
-                                                <Text fill="#f5eded" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by">
-                                                   <font>
-                                                      <Font size="16.0" />
-                                                   </font>
-                                                </Text>
-                                                <ChoiceBox fx:id="choiceBoxBook" prefWidth="150.0">
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" />
-                                                   </HBox.margin>
-                                                </ChoiceBox>
+                                                <FontAwesomeIconView glyphName="BOOK" size="40">
+                                                   <VBox.margin>
+                                                      <Insets top="30.0" />
+                                                   </VBox.margin>
+                                                </FontAwesomeIconView>
+                                                <JFXTextField fx:id="searchBookInput" labelFloat="true" onAction="#loadSearchBook" promptText="Search Book">
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" top="30.0" />
+                                                   </VBox.margin>
+                                                </JFXTextField>
+                                                <HBox alignment="CENTER" prefHeight="75.0" prefWidth="277.0">
+                                                   <children>
+                                                      <Text fill="#f5eded" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <ChoiceBox fx:id="choiceBoxBook" prefWidth="150.0">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </HBox.margin>
+                                                      </ChoiceBox>
+                                                   </children>
+                                                </HBox>
                                              </children>
-                                          </HBox>
+                                          </VBox>
+                                          <VBox fx:id="search2" alignment="CENTER" prefHeight="535.0" prefWidth="321.0" style="-fx-background-color: #211f30;">
+                                             <HBox.margin>
+                                                <Insets bottom="20.0" right="20.0" top="20.0" />
+                                             </HBox.margin>
+                                             <children>
+                                                <FontAwesomeIconView glyphName="USER" size="40">
+                                                   <VBox.margin>
+                                                      <Insets top="30.0" />
+                                                   </VBox.margin>
+                                                </FontAwesomeIconView>
+                                                <JFXTextField fx:id="searchUserInput" labelFloat="true" onAction="#loadSearchUser" promptText="Search User">
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" top="30.0" />
+                                                   </VBox.margin>
+                                                </JFXTextField>
+                                                <HBox alignment="CENTER" prefHeight="75.0" prefWidth="304.0">
+                                                   <children>
+                                                      <Text fill="#f5eded" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <ChoiceBox fx:id="choiceBoxUser" prefWidth="150.0">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </HBox.margin>
+                                                      </ChoiceBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox fx:id="search3" alignment="CENTER" prefHeight="535.0" prefWidth="320.0" style="-fx-background-color: #211f30;">
+                                             <HBox.margin>
+                                                <Insets bottom="20.0" right="20.0" top="20.0" />
+                                             </HBox.margin>
+                                             <children>
+                                                <FontAwesomeIconView glyphName="CHECK" size="40">
+                                                   <VBox.margin>
+                                                      <Insets top="30.0" />
+                                                   </VBox.margin>
+                                                </FontAwesomeIconView>
+                                                <JFXTextField fx:id="searchImprumutInput" labelFloat="true" onAction="#loadSearchImprumut" promptText="Search Imprumut">
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" top="30.0" />
+                                                   </VBox.margin>
+                                                </JFXTextField>
+                                                <HBox alignment="CENTER" prefHeight="75.0" prefWidth="303.0">
+                                                   <children>
+                                                      <Text fill="#f5eded" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by">
+                                                         <font>
+                                                            <Font size="16.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <ChoiceBox fx:id="choiceBoxImprumut" prefWidth="150.0">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </HBox.margin>
+                                                      </ChoiceBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
                                        </children>
-                                    </VBox>
-                                    <VBox fx:id="search2" alignment="CENTER" prefHeight="535.0" prefWidth="321.0" style="-fx-background-color: #211f30;">
-                                       <HBox.margin>
-                                          <Insets bottom="20.0" right="20.0" top="20.0" />
-                                       </HBox.margin>
+                                    </HBox>
+                                    <VBox alignment="CENTER" prefHeight="251.0" prefWidth="963.0">
                                        <children>
-                                          <FontAwesomeIconView glyphName="USER" size="50" />
-                                          <JFXTextField fx:id="searchUserInput" labelFloat="true" onAction="#loadSearchUser" promptText="Search User">
+                                          <Text fill="#ffff8d" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests">
+                                             <font>
+                                                <Font name="System Bold" size="22.0" />
+                                             </font>
                                              <VBox.margin>
-                                                <Insets left="20.0" right="20.0" top="30.0" />
+                                                <Insets bottom="10.0" />
                                              </VBox.margin>
-                                          </JFXTextField>
-                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <Text fill="#f5eded" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by">
-                                                   <font>
-                                                      <Font size="16.0" />
-                                                   </font>
-                                                </Text>
-                                                <ChoiceBox fx:id="choiceBoxUser" prefWidth="150.0">
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" />
-                                                   </HBox.margin>
-                                                </ChoiceBox>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="search3" alignment="CENTER" prefHeight="535.0" prefWidth="320.0" style="-fx-background-color: #211f30;">
-                                       <HBox.margin>
-                                          <Insets bottom="20.0" right="20.0" top="20.0" />
-                                       </HBox.margin>
-                                       <children>
-                                          <FontAwesomeIconView glyphName="CHECK" size="50" />
-                                          <JFXTextField fx:id="searchImprumutInput" labelFloat="true" onAction="#loadSearchImprumut" promptText="Search Imprumut">
+                                          </Text>
+                                          <TableView fx:id="tableViewR" prefHeight="219.0" prefWidth="963.0">
+                                             <columns>
+                                                <TableColumn fx:id="idCol" prefWidth="58.0" resizable="false" text="ID" />
+                                                <TableColumn fx:id="isbnCol" prefWidth="186.0" resizable="false" text="ISBN" />
+                                                <TableColumn fx:id="titluCol" maxWidth="2500.0" minWidth="0.0" prefWidth="160.0" resizable="false" text="Titlu" />
+                                                <TableColumn fx:id="userCol" maxWidth="406.0" minWidth="-1.0" prefWidth="162.0" resizable="false" text="Requested by" />
+                                                <TableColumn fx:id="numeCol" minWidth="0.0" prefWidth="106.0" resizable="false" text="Nume" />
+                                                <TableColumn fx:id="dataCol" maxWidth="2800.0" minWidth="0.0" prefWidth="147.0" resizable="false" text="Data" />
+                                                <TableColumn fx:id="statusCol" maxWidth="2800.0" prefWidth="142.0" resizable="false" text="Status" />
+                                             </columns>
+                                             <contextMenu>
+                                                <ContextMenu>
+                                                   <items>
+                                                      <MenuItem mnemonicParsing="false" onAction="#loadAcceptRequest" text="Delete" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#loadDenyRequest" text="Deny" />
+                                                   </items>
+                                                   <styleClass>
+                                                      <String fx:value="table-context" />
+                                                      <String fx:value="colored-context-menu" />
+                                                   </styleClass>
+                                                </ContextMenu>
+                                             </contextMenu>
                                              <VBox.margin>
-                                                <Insets left="20.0" right="20.0" top="30.0" />
+                                                <Insets bottom="1.0" left="1.0" right="1.0" />
                                              </VBox.margin>
-                                          </JFXTextField>
-                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <Text fill="#f5eded" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by">
-                                                   <font>
-                                                      <Font size="16.0" />
-                                                   </font>
-                                                </Text>
-                                                <ChoiceBox fx:id="choiceBoxImprumut" prefWidth="150.0">
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" />
-                                                   </HBox.margin>
-                                                </ChoiceBox>
-                                             </children>
-                                          </HBox>
+                                          </TableView>
                                        </children>
                                     </VBox>
                                  </children>
-                              </HBox>
+                              </VBox>
                            </children>
                         </AnchorPane>
                     </content>

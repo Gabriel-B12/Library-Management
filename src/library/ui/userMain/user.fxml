@@ -3,8 +3,10 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Menu?>
@@ -55,7 +57,28 @@
                            <children>
                               <HBox prefHeight="509.0" prefWidth="1003.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <VBox prefHeight="509.0" prefWidth="480.0" />
+                                    <VBox prefHeight="509.0" prefWidth="480.0">
+                                       <children>
+                                          <VBox fx:id="vbox" alignment="CENTER" prefHeight="446.0" prefWidth="440.0" style="-fx-background-color: #211f30;">
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                <FontAwesomeIconView glyphName="BOOK" size="30" />
+                                                <Text fill="#ffff8d" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Request">
+                                                   <font>
+                                                      <Font size="27.0" />
+                                                   </font>
+                                                </Text>
+                                                <JFXTextField fx:id="bookIDInput" labelFloat="true" promptText="Book ID">
+                                                   <VBox.margin>
+                                                      <Insets bottom="30.0" left="30.0" right="30.0" top="25.0" />
+                                                   </VBox.margin>
+                                                </JFXTextField>
+                                                <Button mnemonicParsing="false" onAction="#loadRequest" text="Send request" />
+                                             </children>
+                                          </VBox>
+                                       </children></VBox>
                                     <VBox fx:id="rightVBox" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="509.0" prefWidth="518.0">
                                        <children>
                                           <HBox fx:id="mainBox" alignment="CENTER" prefHeight="174.0" prefWidth="460.0">
@@ -140,7 +163,7 @@
                                        <contextMenu>
                                           <ContextMenu>
                                              <items>
-                                                <MenuItem mnemonicParsing="false" text="Add to read books" />
+                                                <MenuItem mnemonicParsing="false" onAction="#loadAddRead" text="Add to read books" />
                                              </items>
                                              <styleClass>
                                                 <String fx:value="table-context" />
@@ -162,60 +185,101 @@
                      <content>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <HBox prefHeight="481.0" prefWidth="881.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox prefHeight="481.0" prefWidth="1003.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <VBox alignment="CENTER" prefHeight="481.0" prefWidth="503.0">
+                                    <HBox prefHeight="216.0" prefWidth="1003.0">
                                        <children>
-                                          <Text fill="#ffff8d" strokeType="OUTSIDE" strokeWidth="0.0" text="Books read">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets bottom="20.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                            <content>
-                                              <AnchorPane fx:id="anchorPane1" minHeight="0.0" minWidth="0.0" prefHeight="306.0" prefWidth="486.0">
-                                                   <children>
-                                                      <VBox fx:id="vbox1" maxHeight="-Infinity" prefHeight="305.0" prefWidth="488.0" style="-fx-background-color: #2A2E37;" stylesheets="@../../../resources/dark-theme.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                      </VBox>
-                                                   </children>
-                                                </AnchorPane>
-                                            </content>
-                                          </ScrollPane>
+                                          <VBox alignment="CENTER" prefHeight="481.0" prefWidth="503.0">
+                                             <children>
+                                                <Text fill="#ffff8d" strokeType="OUTSIDE" strokeWidth="0.0" text="Cărți citite">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets bottom="20.0" top="15.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                                <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <AnchorPane fx:id="anchorPane1" minHeight="0.0" minWidth="0.0" prefHeight="306.0" prefWidth="486.0">
+                                                         <children>
+                                                            <VBox fx:id="vbox1" maxHeight="-Infinity" prefHeight="305.0" prefWidth="488.0" style="-fx-background-color: #2A2E37;" stylesheets="@../../../resources/dark-theme.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                            </VBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </ScrollPane>
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="481.0" prefWidth="503.0">
+                                             <children>
+                                                <Text fill="#ffff8d" strokeType="OUTSIDE" strokeWidth="0.0" text="Cărți nereturnate">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets bottom="20.0" top="15.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                                <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                                   <content>
+                                                      <AnchorPane fx:id="anchorPane2" minHeight="0.0" minWidth="0.0" prefHeight="306.0" prefWidth="486.0">
+                                                         <children>
+                                                            <VBox fx:id="vbox2" maxHeight="-Infinity" prefHeight="305.0" prefWidth="425.0" style="-fx-background-color: #2A2E37;" stylesheets="@../../../resources/dark-theme.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                            </VBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </ScrollPane>
+                                             </children>
+                                          </VBox>
                                        </children>
-                                    </VBox>
-                                    <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="481.0" prefWidth="503.0">
+                                    </HBox>
+                                    <VBox alignment="CENTER" prefHeight="268.0" prefWidth="1003.0">
                                        <children>
-                                          <Text fill="#ffff8d" strokeType="OUTSIDE" strokeWidth="0.0" text="Books to read">
+                                          <Text fill="#ffff8d" strokeType="OUTSIDE" strokeWidth="0.0" text="My Requests">
                                              <font>
-                                                <Font size="20.0" />
+                                                <Font name="System Bold" size="22.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets bottom="20.0" />
+                                                <Insets bottom="10.0" top="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                                             <content>
-                                                <AnchorPane fx:id="anchorPane2" minHeight="0.0" minWidth="0.0" prefHeight="306.0" prefWidth="486.0">
-                                                   <children>
-                                                      <VBox fx:id="vbox2" maxHeight="-Infinity" prefHeight="305.0" prefWidth="425.0" style="-fx-background-color: #2A2E37;" stylesheets="@../../../resources/dark-theme.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                      </VBox>
-                                                   </children>
-                                                </AnchorPane>
-                                             </content>
-                                          </ScrollPane>
+                                          <TableView fx:id="tableViewR" prefHeight="214.0" prefWidth="1001.0">
+                                             <columns>
+                                                <TableColumn fx:id="idCol1" prefWidth="58.0" resizable="false" text="ID" />
+                                                <TableColumn fx:id="isbnCol1" prefWidth="186.0" resizable="false" text="ISBN" />
+                                                <TableColumn fx:id="titluCol1" maxWidth="2500.0" minWidth="0.0" prefWidth="160.0" resizable="false" text="Titlu" />
+                                                <TableColumn fx:id="userCol" maxWidth="406.0" minWidth="-1.0" prefWidth="162.0" resizable="false" text="Requested by" />
+                                                <TableColumn fx:id="numeCol" minWidth="0.0" prefWidth="106.0" resizable="false" text="Nume" />
+                                                <TableColumn fx:id="dataCol" maxWidth="2800.0" minWidth="0.0" prefWidth="147.0" resizable="false" text="Data" />
+                                                <TableColumn fx:id="statusCol" maxWidth="2800.0" prefWidth="142.0" resizable="false" text="Status" />
+                                             </columns>
+                                             <contextMenu>
+                                                <ContextMenu>
+                                                   <items>
+                                                      <MenuItem mnemonicParsing="false" onAction="#loadDeleteRequest" text="Delete" />
+                                                   </items>
+                                                   <styleClass>
+                                                      <String fx:value="table-context" />
+                                                      <String fx:value="colored-context-menu" />
+                                                   </styleClass>
+                                                </ContextMenu>
+                                             </contextMenu>
+                                             <VBox.margin>
+                                                <Insets bottom="1.0" left="1.0" right="1.0" />
+                                             </VBox.margin>
+                                          </TableView>
                                        </children>
                                     </VBox>
                                  </children>
-                              </HBox>
+                              </VBox>
                            </children>
                         </AnchorPane>
                      </content>

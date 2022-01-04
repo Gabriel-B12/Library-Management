@@ -13,7 +13,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -28,6 +32,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -43,8 +49,15 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import library.alert.AlertMaker;
+import static library.alert.AlertMaker.showErrorMessage;
+import static library.alert.AlertMaker.showSimpleAlert;
+import static library.alert.AlertMaker.styleAlert;
 import library.data.Carte;
+import library.data.Cerere;
 import static library.data.User.utilizator;
+import static library.database.DataHelper.existaCarte;
+import static library.database.DataHelper.existaCerere;
+import static library.database.DataHelper.existaImprumut;
 import library.database.DatabaseHandler;
 
 /**
@@ -54,6 +67,7 @@ import library.database.DatabaseHandler;
 public class UserController implements Initializable {
     
     ObservableList<Carte> list = FXCollections.observableArrayList();
+    ObservableList<Cerere> list1 = FXCollections.observableArrayList();
     
     @FXML
     private JFXTextField searchBookInput;
@@ -100,18 +114,40 @@ public class UserController implements Initializable {
     private JFXButton profileButton;
     @FXML
     private JFXButton logoutButton;
+    @FXML
+    private VBox vbox;
+    @FXML
+    private JFXTextField bookIDInput;
+    @FXML
+    private TableView<Cerere> tableViewR;
+    @FXML
+    private TableColumn<Cerere, Integer> idCol1;
+    @FXML
+    private TableColumn<Cerere, String> isbnCol1;
+    @FXML
+    private TableColumn<Cerere, String> titluCol1;
+    @FXML
+    private TableColumn<Cerere, String> userCol;
+    @FXML
+    private TableColumn<Cerere, String> numeCol;
+    @FXML
+    private TableColumn<Cerere, String> dataCol;
+    @FXML
+    private TableColumn<Cerere, String> statusCol;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         handler = DatabaseHandler.getInstance();
         initCol();
+        loadTableData();
         setCalendar();
         setData();
         setData1();
 
         mainBox.setStyle("-fx-background-color:  #211f30;");
         JFXDepthManager.setDepth(mainBox,2);
+        JFXDepthManager.setDepth(vbox,2);
 
     }
     
@@ -144,7 +180,8 @@ public class UserController implements Initializable {
                 String bookTitle = rs.getString("titlu");
                 String bookAuthor = rs.getString("autor");
                 Timestamp data = rs.getTimestamp("dataImprumut");
-                Integer days = Math.toIntExact(TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - data.getTime())) + 1;
+                Timestamp data1 = addDays(data,14);
+                
                 
                 VBox box = new VBox();
                 box.setStyle("-fx-background-color:  #211f30;-fx-font-size: 12pt;");
@@ -152,15 +189,18 @@ public class UserController implements Initializable {
                 Text text1 = new Text("Book's Title: "+bookTitle);
                 Text text2 = new Text("Author: "+bookAuthor);
                 Text text3 = new Text("Data: "+formatDateTimeString(data));
+                Text text4 = new Text("Return before: "+formatDateTimeString1(data1));
                 
                 text1.setStyle("-fx-fill: #FFFF8D;");
                 text2.setStyle("-fx-fill: #FFFF8D;");
                 text3.setStyle("-fx-fill: #FFFF8D;");
+                text4.setStyle("-fx-fill: #FFFF8D;");
                 
                 
                 box.getChildren().add(text1);
                 box.getChildren().add(text2);
                 box.getChildren().add(text3);
+                box.getChildren().add(text4);
 
               
                 box.setPadding(new Insets(1,5,0,5));
@@ -170,7 +210,7 @@ public class UserController implements Initializable {
                 vbox2.getChildren().add(box);
             }
             
-            int pref=75;
+            int pref=130;
             if(nr>2){
                 pref*=nr;
                 anchorPane2.setPrefHeight(pref);
@@ -186,17 +226,29 @@ public class UserController implements Initializable {
         SimpleDateFormat DATE_FORMAT =new SimpleDateFormat("dd-MM-yyyy hh:mm a");
         return DATE_FORMAT.format(date);
     }
+    private static String formatDateTimeString1(Date date) {
+        SimpleDateFormat DATE_FORMAT =new SimpleDateFormat("dd-MM-yyyy");
+        return DATE_FORMAT.format(date);
+    }
+    public static Timestamp addDays(Timestamp date, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);// w ww.  j ava  2  s  .co m
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return new Timestamp(cal.getTime().getTime());
+
+    }
     
     private void setData1(){
         
-        int prefHeight=75;
+        vbox1.getChildren().clear();
+        int prefHeight=100;
         
         if(utilizator.getCitit()==null){
             mainText3.setText("Carti citite: 0");
             return;
         }
         String[] arr = utilizator.getCitit().split(" ");    
-
+        arr = new HashSet<String>(Arrays.asList(arr)).toArray(new String[0]);
         int found=0;
         for (String arr1 : arr) {
             
@@ -212,15 +264,19 @@ public class UserController implements Initializable {
                     
                     String bookTitle = rs.getString("titlu");
                     String bookAuthor = rs.getString("autor");
+                    String bookPublisher = rs.getString("editura");
                 
                     Text text1 = new Text("Book's Title: "+bookTitle);
+                    Text text2 = new Text("Author: "+bookAuthor);
+                    Text text3 = new Text("Publisher: "+bookPublisher);
+                    
                     text1.setStyle("-fx-fill: #FFFF8D;");
-            
-                    Text text2 = new Text("Author      :"+bookAuthor);
                     text2.setStyle("-fx-fill: #FFFF8D;");
+                    text3.setStyle("-fx-fill: #FFFF8D;");
             
                     box.getChildren().add(text1);
                     box.getChildren().add(text2);
+                    box.getChildren().add(text3);
                     
                     box.setPadding(new Insets(1,5,0,5));
                     JFXDepthManager.setDepth(box,2);
@@ -311,6 +367,14 @@ public class UserController implements Initializable {
         edituraCol.setCellValueFactory(new PropertyValueFactory<>("editura"));
         anCol.setCellValueFactory(new PropertyValueFactory<>("anPublicare"));
         pagCol.setCellValueFactory(new PropertyValueFactory<>("pag"));
+        
+        idCol1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        isbnCol1.setCellValueFactory(new PropertyValueFactory<>("bookISBN"));
+        titluCol1.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        userCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+        numeCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        dataCol.setCellValueFactory(new PropertyValueFactory<>("data"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
     @FXML
@@ -320,6 +384,107 @@ public class UserController implements Initializable {
         loadWindow("/library/ui/login/login.fxml","Login");
     }
 
+    @FXML
+    private void loadRequest(ActionEvent event) {
+        String bookID = bookIDInput.getText();
+        
+        if(bookID.isEmpty() ){
+            showSimpleAlert("Info","Please input data first.");
+            return;
+        }
+        if(!existaCarte(Integer.parseInt(bookID))){
+            showSimpleAlert("Info","Please check data and try again (wrong book id).");
+            return;
+        }
+        
+        if(existaCerere(Integer.parseInt(bookID),utilizator.getId())){
+            showSimpleAlert("Info","The request is already sent.");
+            return;
+        }
+            
+        
+        
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Request Book");
+        alert.setContentText("Do you want to send the request?");
+        styleAlert(alert);
+        Optional<ButtonType> answer = alert.showAndWait();
+        if (answer.get() == ButtonType.OK) {
+            String str = "insert into CERERE(bookID,userID,status) values( "
+                    +"'"+ bookID +"',"
+                    +"'"+ utilizator.getId() +"',"
+                    +"'Waiting' )";
+            if(handler.execAction(str)){
+                showSimpleAlert("Success","Book request complete");
+            }else{
+                showErrorMessage("Error","Book request failed");
+            }
+        } else {
+            AlertMaker.showSimpleAlert("Book request cancelled", "Book request process cancelled");
+        }
+        loadTableData();
+    }
+
+    private void loadTableData(){
+        list1.clear();
+        String select="SELECT a.id,a.data,a.status,u.username, u.nume,u.prenume, c.titlu,c.isbn FROM CERERE a\n"
+                + "LEFT OUTER JOIN Utilizator u\n"
+                + "ON u.id = a.userID\n"
+                + "LEFT OUTER JOIN Carte c\n"
+                + "ON c.id = a.bookID where userID='"+utilizator.getId()+"'";
+        ResultSet rs = handler.execQuery(select);
+        try {
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String username=rs.getString("username");
+                String name = rs.getString("nume")+ " "+rs.getString("prenume");
+                String isbn = rs.getString("isbn");
+                String bookTitle = rs.getString("titlu");
+                Timestamp data = rs.getTimestamp("data");
+                String status = rs.getString("status");
+                Cerere imp = new Cerere(id, isbn, bookTitle,username,name ,formatDateTimeString(new Date(data.getTime())), status);
+                list1.add(imp);
+                
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        tableViewR.setItems(list1);
+    }
+
+    @FXML
+    private void loadDeleteRequest(ActionEvent event) {
+        Cerere selected = tableViewR.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            AlertMaker.showErrorMessage("No request selected", "Please select a request first.");
+            return;
+        }
+        
+        Boolean result = DatabaseHandler.getInstance().deleteCerere(selected);
+        if (result) {
+            AlertMaker.showSimpleAlert("Request deleted", "Request for book "+selected.getBookName() + " was deleted successfully.");
+            list1.remove(selected);
+        } else {
+            AlertMaker.showSimpleAlert("Failed","Failed to delete request wit ID "+selected.getId() + " !");
+        }
+        loadTableData();
+        
+    }
+
+    @FXML
+    private void loadAddRead(ActionEvent event) {
+        Carte selected = tableView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            AlertMaker.showErrorMessage("No book selected", "Please select a book first.");
+            return;
+        }
+        utilizator.setCitit(utilizator.getCitit()+" "+selected.getId());
+        
+        handler.updateUser(utilizator);
+        setData1();
+    }
+
+  
     
     
 

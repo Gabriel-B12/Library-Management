@@ -8,10 +8,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +28,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -35,6 +43,7 @@ import library.alert.AlertMaker;
 import static library.alert.AlertMaker.showErrorMessage;
 import static library.alert.AlertMaker.showSimpleAlert;
 import static library.alert.AlertMaker.styleAlert;
+import library.data.Cerere;
 import static library.database.DataHelper.existaImprumut;
 import library.database.DatabaseHandler;
 import library.ui.listBook.ListBookController;
@@ -51,7 +60,7 @@ public class AdminController implements Initializable {
     private DatabaseHandler handler;
     private PieChart bookChart;
     private PieChart memberChart;
-    
+    private ObservableList<Cerere> list = FXCollections.observableArrayList();
     @FXML
     private HBox book_info;
     @FXML
@@ -108,6 +117,22 @@ public class AdminController implements Initializable {
     private ChoiceBox<String> choiceBoxImprumut;
     @FXML
     private VBox graphBox;
+    @FXML
+    private TableView<Cerere> tableViewR;
+    @FXML
+    private TableColumn<Cerere, Integer> idCol;
+    @FXML
+    private TableColumn<Cerere, String> isbnCol;
+    @FXML
+    private TableColumn<Cerere, String> titluCol;
+    @FXML
+    private TableColumn<Cerere, String> userCol;
+    @FXML
+    private TableColumn<Cerere, String> numeCol;
+    @FXML
+    private TableColumn<Cerere, String> dataCol;
+    @FXML
+    private TableColumn<Cerere, String> statusCol;
     
     
     
@@ -116,6 +141,8 @@ public class AdminController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setFocus();
         handler = DatabaseHandler.getInstance();
+        initCol();
+        loadTableData();
         JFXDepthManager.setDepth(book_info,2);
         JFXDepthManager.setDepth(user_info,2);
         JFXDepthManager.setDepth(search1,2);
@@ -130,6 +157,16 @@ public class AdminController implements Initializable {
         initGraphs();
     }    
 
+    private void initCol() {
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        isbnCol.setCellValueFactory(new PropertyValueFactory<>("bookISBN"));
+        titluCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
+        userCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+        numeCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        dataCol.setCellValueFactory(new PropertyValueFactory<>("data"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+    }
+    
     void setFocus(){
         addUserButton.setFocusTraversable(false);
         addBookButton.setFocusTraversable(false);
@@ -482,9 +519,62 @@ public class AdminController implements Initializable {
         bookChart.setData(handler.getBookGraphStatistics());
         memberChart.setData(handler.getMemberGraphStatistics());
     }
-
+    
+    private static String formatDateTimeString(Date date) {
+        SimpleDateFormat DATE_FORMAT =new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+        return DATE_FORMAT.format(date);
+    }
     
 
-    
+    private void loadTableData(){
+        list.clear();
+        String select="SELECT a.id,a.data,a.status,u.username, u.nume,u.prenume, c.titlu,c.isbn FROM CERERE a\n"
+                + "LEFT OUTER JOIN Utilizator u\n"
+                + "ON u.id = a.userID\n"
+                + "LEFT OUTER JOIN Carte c\n"
+                + "ON c.id = a.bookID where status='Waiting'";
+        ResultSet rs = handler.execQuery(select);
+        try {
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String username=rs.getString("username");
+                String name = rs.getString("nume")+ " "+rs.getString("prenume");
+                String isbn = rs.getString("isbn");
+                String bookTitle = rs.getString("titlu");
+                Timestamp data = rs.getTimestamp("data");
+                String status = rs.getString("status");
+                Cerere imp = new Cerere(id, isbn, bookTitle,username,name ,formatDateTimeString(new Date(data.getTime())), status);
+                list.add(imp);
+                
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        tableViewR.setItems(list);
+    }
+
+    @FXML
+    private void loadAcceptRequest(ActionEvent event) {
+        Cerere selected = tableViewR.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            AlertMaker.showErrorMessage("No request selected", "Please select a request first.");
+            return;
+        }
+        handler.updateCerere("Accepted",selected.getId());
+        
+        loadTableData();
+    }
+
+    @FXML
+    private void loadDenyRequest(ActionEvent event) {
+        Cerere selected = tableViewR.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            AlertMaker.showErrorMessage("No request selected", "Please select a request first.");
+            return;
+        }
+        handler.updateCerere("Denied",selected.getId());
+        
+        loadTableData();
+    }
     
 }

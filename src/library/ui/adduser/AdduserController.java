@@ -81,7 +81,7 @@ public class AdduserController implements Initializable {
             AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Duplicate member id", "Member with same id exists.\nPlease use new ID");
             return;
         }
-        User user = new User(1,username1, nume1, prenume1, email1,mobile1,"",password1,isAdmin1);
+        User user = new User(1,username1, nume1, prenume1, email1,mobile1,"0",password1,isAdmin1);
         boolean result = DataHelper.insertNewUser(user);
         if (result) {
             AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "New member added", username1 + " has been added");

@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 import javax.swing.JOptionPane;
 import library.data.Carte;
+import library.data.Cerere;
 import library.data.Imprumut;
 import library.data.User;
 
@@ -21,7 +22,7 @@ import library.data.User;
  *
  * @author Gaby
  */
-public class DatabaseHandler {
+public final class DatabaseHandler {
     
     private static DatabaseHandler handler = null;
     
@@ -34,6 +35,7 @@ public class DatabaseHandler {
         setupTabelCarte();
         setupTabelUtilizator();
         setupTabelImprumut();
+        setupTabelCerere();
     }
     
     /**
@@ -146,8 +148,34 @@ public class DatabaseHandler {
         }
    }
     
+    void setupTabelCerere(){
+        String TABLE_NAME = "CERERE";
+        try{
+            st = con.createStatement();
+            DatabaseMetaData dbm = con.getMetaData();
+            ResultSet tables = dbm.getTables(null,null,TABLE_NAME.toUpperCase(),null);
+            if(tables.next()){
+                System.out.println("Table "+TABLE_NAME+" alredy exists.");
+            }else{
+                st.execute("CREATE TABLE "+ TABLE_NAME +"("
+                    +"  id int NOT NULL AUTO_INCREMENT PRIMARY KEY ,\n"
+                    +"  bookID int  ,\n"
+                    +"  userID int ,\n"
+                    +"  data timestamp default CURRENT_TIMESTAMP,\n"
+                    +"  status varchar(100),\n"
+                    +"  FOREIGN KEY (bookID) REFERENCES CARTE(id),\n"
+                    +"  FOREIGN KEY (userID) REFERENCES UTILIZATOR(id)"
+                    +" )");
+                
+            }
+        }catch (SQLException e){
+            System.err.println(e.getMessage() +"...... setupDatabase (table CERERE)");
+        }finally{
+        }
+   }
+    
     /**
-     *
+     *1
      * @param book
      * @return
      */
@@ -156,6 +184,22 @@ public class DatabaseHandler {
             String deleteStatement = "DELETE FROM CARTE WHERE ISBN = ?";
             PreparedStatement stmt = con.prepareStatement(deleteStatement);
             stmt.setString(1, book.getIsbn());
+            int res = stmt.executeUpdate();
+            if (res == 1) {
+                return true;
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return false;
+    }
+    
+    public boolean deleteCerere(Cerere c) {
+        try {
+            String deleteStatement = "DELETE FROM CERERE WHERE id= ?";
+            PreparedStatement stmt = con.prepareStatement(deleteStatement);
+            stmt.setInt(1, c.getId());
             int res = stmt.executeUpdate();
             if (res == 1) {
                 return true;
@@ -220,7 +264,7 @@ public class DatabaseHandler {
      */
     public boolean updateUser(User member) {
         try {
-            String update = "UPDATE UTILIZATOR SET NUME=?, PRENUME=?, EMAIL=?, MOBILE=?, ISADMIN=? , PASSWORD=? WHERE USERNAME=?";
+            String update = "UPDATE UTILIZATOR SET NUME=?, PRENUME=?, EMAIL=?, MOBILE=?, ISADMIN=? , PASSWORD=? ,CITIT=? WHERE USERNAME=?";
             PreparedStatement stmt = con.prepareStatement(update);
             stmt.setString(1, member.getNume());
             stmt.setString(2, member.getPrenume());
@@ -228,7 +272,8 @@ public class DatabaseHandler {
             stmt.setString(4, member.getMobile());
             stmt.setBoolean(5, member.getIsAdmin());
             stmt.setString(6, member.getPassword());
-            stmt.setString(7, member.getUsername());
+            stmt.setString(7, member.getCitit());
+            stmt.setString(8, member.getUsername());
             int res = stmt.executeUpdate();
             return (res > 0);
         }
@@ -238,6 +283,20 @@ public class DatabaseHandler {
         return false;
     }
     
+    public boolean updateCerere(String s1,int s2) {
+        try {
+            String update = "UPDATE CERERE SET STATUS=? WHERE ID=?";
+            PreparedStatement stmt = con.prepareStatement(update);
+            stmt.setString(1, s1);
+            stmt.setInt(2, s2);
+            int res = stmt.executeUpdate();
+            return (res > 0);
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return false;
+    }
     /**
      *
      * @param query

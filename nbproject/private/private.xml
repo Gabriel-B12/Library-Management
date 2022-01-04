@@ -3,22 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/listImprumut/ListImprumutController.java</file>
             <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/userMain/UserController.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/addbook/AddbookController.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/login/loginTest.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/adduser/AdduserController.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/data/Imprumut.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/data/User.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/settings/SettingsController.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/data/Carte.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/adminMain/AdminController.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/listBook/ListBookController.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/database/DatabaseHandler.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/login/LoginController.java</file>
-            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/alert/AlertMaker.java</file>
             <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/listUser/ListUserController.java</file>
             <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/database/DataHelper.java</file>
+            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/ui/adduser/AdduserController.java</file>
+            <file>file:/C:/Users/Gaby/Documents/NetBeansProjects/Library-Project/src/library/database/DatabaseHandler.java</file>
         </group>
     </open-files>
 </project-private>

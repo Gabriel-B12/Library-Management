@@ -46,7 +46,7 @@ public class DataHelper {
     public static boolean insertNewUser(User user) {
         try {
             PreparedStatement statement = DatabaseHandler.getInstance().getConnection().prepareStatement(
-                    "INSERT INTO UTILIZATOR(username,nume,prenume,email,mobile,password,isAdmin) VALUES(?,?,?,?,?,?,?)");
+                    "INSERT INTO UTILIZATOR(username,nume,prenume,email,mobile,password,isAdmin,citit) VALUES(?,?,?,?,?,?,?,?)");
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getNume());
             statement.setString(3, user.getPrenume());
@@ -54,6 +54,7 @@ public class DataHelper {
             statement.setString(5, user.getMobile());
             statement.setString(6, user.getPassword());
             statement.setBoolean(7, user.getIsAdmin());
+            statement.setString(8, user.getCitit());
             return statement.executeUpdate() > 0;
         } catch (SQLException ex) {
             System.err.println(ex.getMessage() +"...... DataHelper");
@@ -66,6 +67,22 @@ public class DataHelper {
      * @param id
      * @return
      */
+    public static boolean existaCarte(int id) {
+        try {
+            String checkstmt = "SELECT COUNT(*) FROM CARTE WHERE id=?";
+            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkstmt);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return (count > 0);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage() +"...... DataHelper");
+        }
+        return false;
+    }
+    
     public static boolean existaCarte(String id) {
         try {
             String checkstmt = "SELECT COUNT(*) FROM CARTE WHERE isbn=?";
@@ -91,6 +108,23 @@ public class DataHelper {
     public static boolean existaImprumut(int bookID,int userID) {
         try {
             String checkstmt = "SELECT COUNT(*) FROM IMPRUMUT WHERE bookID=? and userId=?";
+            PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkstmt);
+            stmt.setInt(1, bookID);
+            stmt.setInt(2, userID);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return (count > 0);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage() +"...... DataHelper");
+        }
+        return false;
+    }
+    
+    public static boolean existaCerere(int bookID,int userID) {
+        try {
+            String checkstmt = "SELECT COUNT(*) FROM CERERE WHERE bookID=? and userId=?";
             PreparedStatement stmt = DatabaseHandler.getInstance().getConnection().prepareStatement(checkstmt);
             stmt.setInt(1, bookID);
             stmt.setInt(2, userID);

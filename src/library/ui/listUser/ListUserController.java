@@ -134,7 +134,7 @@ public class ListUserController implements Initializable {
         if (answer.get() == ButtonType.OK) {
             Boolean result = DatabaseHandler.getInstance().deleteUser(selectedForDeletion);
             if (result) {
-                AlertMaker.showSimpleAlert("Book deleted", selectedForDeletion.getNume()+" "+selectedForDeletion.getPrenume()+ " was deleted successfully.");
+                AlertMaker.showSimpleAlert("User deleted", selectedForDeletion.getNume()+" "+selectedForDeletion.getPrenume()+ " was deleted successfully.");
                 list.remove(selectedForDeletion);
             } else {
                 AlertMaker.showSimpleAlert("Failed", selectedForDeletion.getNume()+" "+selectedForDeletion.getPrenume() + " could not be deleted");

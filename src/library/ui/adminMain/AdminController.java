@@ -6,11 +6,13 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -135,7 +137,11 @@ public class AdminController implements Initializable {
     private TableColumn<Cerere, String> statusCol;
     
     
-    
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -231,7 +237,7 @@ public class AdminController implements Initializable {
             Parent parent = loader.load();
 
             ListImprumutController controller = (ListImprumutController) loader.getController();
-            String select="SELECT i.id, i.bookID, i.userID,i.dataImprumut,u.username, u.nume,u.prenume, c.titlu,c.isbn FROM IMPRUMUT i\n"
+            String select="SELECT i.id, i.bookID, i.userID,i.dataImprumut,i.dataR,u.username, u.nume,u.prenume, c.titlu,c.isbn FROM IMPRUMUT i\n"
                 + "LEFT OUTER JOIN Utilizator u\n"
                 + "ON u.id = i.userID\n"
                 + "LEFT OUTER JOIN Carte c\n"
@@ -364,10 +370,16 @@ public class AdminController implements Initializable {
         alert.setContentText("Do you want to issue the book " + bookName.getText()+" to "+userName.getText() + " ?");
         styleAlert(alert);
         Optional<ButtonType> answer = alert.showAndWait();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 7);  
+
         if (answer.get() == ButtonType.OK) {
-            String str = "insert into IMPRUMUT(bookID,userID) values( "
+            String str = "insert into IMPRUMUT(bookID,userID,dataR) values( "
                     +"'"+bookISBNInput.getText() +"',"
-                    +"'"+usernameInput.getText() +"' )";
+                    +"'"+usernameInput.getText() +"',"
+                    +"'"+sdf.format(cal.getTime()) +"' )";
             if(handler.execAction(str)){
                 showSimpleAlert("Success","Book Isuue complete");
             }else{
@@ -473,7 +485,7 @@ public class AdminController implements Initializable {
             return;
         }
         String in = searchImprumutInput.getText();
-        String select="SELECT i.id,i.bookID, i.userID,i.dataImprumut,u.username, u.nume,u.prenume, c.titlu,c.isbn FROM IMPRUMUT i\n"
+        String select="SELECT i.id,i.bookID, i.userID,i.dataImprumut,i.dataR,u.username, u.nume,u.prenume, c.titlu,c.isbn FROM IMPRUMUT i\n"
                 + "LEFT OUTER JOIN Utilizator u\n"
                 + "ON u.id = i.userID\n"
                 + "LEFT OUTER JOIN Carte c\n"
@@ -521,7 +533,7 @@ public class AdminController implements Initializable {
     }
     
     private static String formatDateTimeString(Date date) {
-        SimpleDateFormat DATE_FORMAT =new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+        SimpleDateFormat DATE_FORMAT =new SimpleDateFormat("yyyy-MM-dd");
         return DATE_FORMAT.format(date);
     }
     
@@ -562,6 +574,32 @@ public class AdminController implements Initializable {
         }
         handler.updateCerere("Accepted",selected.getId());
         
+        int id=0;
+        String select="SELECT id FROM CARTE where isbn='"+selected.getBookISBN()+"'";
+        ResultSet rs = handler.execQuery(select);
+        try {
+            while (rs.next()) {
+                id = rs.getInt("id");               
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        int id1=0;
+        String select1="SELECT id FROM UTILIZATOR where username='"+selected.getUsername()+"'";
+        ResultSet rs1 = handler.execQuery(select1);
+        try {
+            while (rs1.next()) {
+                id1 = rs1.getInt("id");               
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }       
+        Date date1=Date.valueOf(selected.getData());  
+        if (handler.updateImprumut(id,id1,  date1)) {
+            AlertMaker.showSimpleAlert( "Success", "Data updated.");
+        } else {
+            AlertMaker.showSimpleAlert( "Failed", "The update failed.");
+        }
         loadTableData();
     }
 

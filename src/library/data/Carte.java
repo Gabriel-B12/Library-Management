@@ -15,15 +15,15 @@ public class Carte {
     int anPublicare;
     int pag;
 
-    /**
-     *
-     * @param id
-     * @param isbn
-     * @param titlu
-     * @param autor
-     * @param editura
-     * @param anPublicare
-     * @param pag
+    /** 
+     * Constructor Carte
+     * @param id id carte
+     * @param isbn isbn-ul cartii
+     * @param titlu titlul cartii
+     * @param autor autorul cartii
+     * @param editura editura cartii
+     * @param anPublicare anul publicarii
+     * @param pag numarul de pagini
      */
     
 
@@ -39,15 +39,15 @@ public class Carte {
 
     /**
      *
-     * @return
-     */
+     * @return 
+     **/
     public int getId() {
         return id;
     }
 
     /**
      *
-     * @param id
+     * @param id id-ul cartii
      */
     public void setId(int id) {
         this.id = id;
@@ -55,7 +55,7 @@ public class Carte {
     
     /**
      *
-     * @return
+     * @return 
      */
     public String getIsbn() {
         return isbn;
@@ -63,7 +63,7 @@ public class Carte {
 
     /**
      *
-     * @param isbn
+     * @param isbn isbn-ul cartii
      */
     public void setIsbn(String isbn) {
         this.isbn = isbn;
@@ -71,7 +71,7 @@ public class Carte {
 
     /**
      *
-     * @return
+     * @return 
      */
     public String getTitlu() {
         return titlu;
@@ -79,7 +79,7 @@ public class Carte {
 
     /**
      *
-     * @param titlu
+     * @param titlu titlul cartii
      */
     public void setTitlu(String titlu) {
         this.titlu = titlu;
@@ -95,7 +95,7 @@ public class Carte {
 
     /**
      *
-     * @param autor
+     * @param autor autorul cartii
      */
     public void setAutor(String autor) {
         this.autor = autor;
@@ -103,7 +103,7 @@ public class Carte {
 
     /**
      *
-     * @return
+     * @return 
      */
     public String getEditura() {
         return editura;
@@ -111,7 +111,7 @@ public class Carte {
 
     /**
      *
-     * @param editura
+     * @param editura editura cartii
      */
     public void setEditura(String editura) {
         this.editura = editura;
@@ -119,7 +119,7 @@ public class Carte {
 
     /**
      *
-     * @return
+     * @return 
      */
     public int getAnPublicare() {
         return anPublicare;

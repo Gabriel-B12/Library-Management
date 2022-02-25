@@ -60,14 +60,19 @@ public class ListBookController implements Initializable {
     private TableColumn<Carte, Integer> pagCol;
     @FXML
     private TableColumn<Carte, Integer> idCol;
-
+    
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
     }
     
     /**
-     *
+     * Metoda care primeste query-ul
      * @param query
      */
     public void load(String query){

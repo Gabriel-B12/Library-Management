@@ -187,7 +187,7 @@
                            <children>
                               <VBox prefHeight="481.0" prefWidth="1003.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <HBox prefHeight="216.0" prefWidth="1003.0">
+                                    <HBox prefHeight="330.0" prefWidth="1003.0">
                                        <children>
                                           <VBox alignment="CENTER" prefHeight="481.0" prefWidth="503.0">
                                              <children>

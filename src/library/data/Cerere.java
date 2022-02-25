@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package library.data;
 
 /**
@@ -19,6 +15,16 @@ public class Cerere {
     private String data;
     private String status;
 
+    /** 
+     * Constructor Cerere
+     * @param id
+     * @param bookISBN
+     * @param bookName
+     * @param username
+     * @param name
+     * @param data
+     * @param status
+     */
     public Cerere(Integer id, String bookISBN, String bookName, String username, String name, String data, String status) {
         this.id = id;
         this.bookISBN = bookISBN;
@@ -29,58 +35,114 @@ public class Cerere {
         this.status = status;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getBookISBN() {
         return bookISBN;
     }
 
+    /**
+     *
+     * @param bookISBN
+     */
     public void setBookISBN(String bookISBN) {
         this.bookISBN = bookISBN;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getBookName() {
         return bookName;
     }
 
+    /**
+     *
+     * @param bookName
+     */
     public void setBookName(String bookName) {
         this.bookName = bookName;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     *
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getData() {
         return data;
     }
 
+    /**
+     *
+     * @param data
+     */
     public void setData(String data) {
         this.data = data;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     *
+     * @param status
+     */
     public void setStatus(String status) {
         this.status = status;
     }

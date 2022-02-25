@@ -2,7 +2,6 @@
 package library.ui.userMain;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
 import com.sun.javafx.scene.control.skin.DatePickerSkin;
@@ -14,12 +13,10 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -134,7 +131,13 @@ public class UserController implements Initializable {
     private TableColumn<Cerere, String> dataCol;
     @FXML
     private TableColumn<Cerere, String> statusCol;
+    private DatePicker dataR;
     
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -152,8 +155,10 @@ public class UserController implements Initializable {
     }
     
     private void setCalendar(){
-        DatePickerSkin datePickerSkin = new DatePickerSkin(new DatePicker(LocalDate.now()));
+        dataR=new DatePicker(LocalDate.now());
+        DatePickerSkin datePickerSkin = new DatePickerSkin(dataR);
         Node popupContent = datePickerSkin.getPopupContent();
+        
 
         rightVBox.getChildren().add(popupContent);
         rightVBox.setSpacing(20); 
@@ -167,7 +172,7 @@ public class UserController implements Initializable {
         mainText1.setText("Logged as "+utilizator.getUsername());
         
         anchorPane2.setPrefHeight(200);
-        String select="SELECT i.id, i.bookID, i.userID,i.dataImprumut, c.titlu,c.autor FROM IMPRUMUT i\n"
+        String select="SELECT i.id, i.bookID, i.userID,i.dataImprumut,i.dataR, c.titlu,c.autor FROM IMPRUMUT i\n"
                 + "LEFT OUTER JOIN Carte c\n"
                 + "ON c.id = i.bookID where i.userID="+utilizator.getId();
         ResultSet rs = handler.execQuery(select);
@@ -180,23 +185,24 @@ public class UserController implements Initializable {
                 String bookTitle = rs.getString("titlu");
                 String bookAuthor = rs.getString("autor");
                 Timestamp data = rs.getTimestamp("dataImprumut");
-                Timestamp data1 = addDays(data,14);
+                Date data1 = rs.getDate("dataR");
                 
                 
                 VBox box = new VBox();
                 box.setStyle("-fx-background-color:  #211f30;-fx-font-size: 12pt;");
-            
+                Text text = new Text("Book's ID: "+id);
                 Text text1 = new Text("Book's Title: "+bookTitle);
                 Text text2 = new Text("Author: "+bookAuthor);
                 Text text3 = new Text("Data: "+formatDateTimeString(data));
-                Text text4 = new Text("Return before: "+formatDateTimeString1(data1));
+                Text text4 = new Text("Return before: "+formatDateTimeString(data1));
                 
+                text.setStyle("-fx-fill: #FFFF8D;");
                 text1.setStyle("-fx-fill: #FFFF8D;");
                 text2.setStyle("-fx-fill: #FFFF8D;");
                 text3.setStyle("-fx-fill: #FFFF8D;");
                 text4.setStyle("-fx-fill: #FFFF8D;");
                 
-                
+                box.getChildren().add(text);
                 box.getChildren().add(text1);
                 box.getChildren().add(text2);
                 box.getChildren().add(text3);
@@ -210,7 +216,7 @@ public class UserController implements Initializable {
                 vbox2.getChildren().add(box);
             }
             
-            int pref=130;
+            int pref=145;
             if(nr>2){
                 pref*=nr;
                 anchorPane2.setPrefHeight(pref);
@@ -223,20 +229,11 @@ public class UserController implements Initializable {
         mainText2.setText("Carti nereturnate: "+nr);
     }
     private static String formatDateTimeString(Date date) {
-        SimpleDateFormat DATE_FORMAT =new SimpleDateFormat("dd-MM-yyyy hh:mm a");
-        return DATE_FORMAT.format(date);
-    }
-    private static String formatDateTimeString1(Date date) {
         SimpleDateFormat DATE_FORMAT =new SimpleDateFormat("dd-MM-yyyy");
         return DATE_FORMAT.format(date);
     }
-    public static Timestamp addDays(Timestamp date, int days) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);// w ww.  j ava  2  s  .co m
-        cal.add(Calendar.DATE, days); //minus number would decrement the days
-        return new Timestamp(cal.getTime().getTime());
-
-    }
+    
+    
     
     private void setData1(){
         
@@ -401,7 +398,11 @@ public class UserController implements Initializable {
             showSimpleAlert("Info","The request is already sent.");
             return;
         }
-            
+          
+        if(!existaImprumut(Integer.parseInt(bookID),utilizator.getId())){
+           showSimpleAlert("Info","Nu exista niciun impumut care include datele cerute!");
+           return;
+        }
         
         
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -409,10 +410,14 @@ public class UserController implements Initializable {
         alert.setContentText("Do you want to send the request?");
         styleAlert(alert);
         Optional<ButtonType> answer = alert.showAndWait();
+        
+        LocalDate data=dataR.getValue();
+
         if (answer.get() == ButtonType.OK) {
-            String str = "insert into CERERE(bookID,userID,status) values( "
+            String str = "insert into CERERE(bookID,userID,data,status) values( "
                     +"'"+ bookID +"',"
                     +"'"+ utilizator.getId() +"',"
+                    +"'"+ data.toString()+"',"
                     +"'Waiting' )";
             if(handler.execAction(str)){
                 showSimpleAlert("Success","Book request complete");

@@ -13,26 +13,26 @@ public class Imprumut {
     private String username;
     private String name;
     private String dataImprumut;
-    private Integer days;
+    private String returnBook;
 
     /**
-     *
+     * Constructor Imprumut
      * @param id
      * @param bookISBN
      * @param bookName
      * @param username
      * @param name
      * @param dataImprumut
-     * @param days
+     * @param returnBook
      */
-    public Imprumut(Integer id, String bookISBN, String bookName, String username, String name, String dataImprumut, Integer days) {
+    public Imprumut(Integer id, String bookISBN, String bookName, String username, String name, String dataImprumut, String returnBook) {    
         this.id = id;
         this.bookISBN = bookISBN;
         this.bookName = bookName;
         this.username = username;
         this.name = name;
         this.dataImprumut = dataImprumut;
-        this.days = days;
+        this.returnBook = returnBook;
     }
 
     /**
@@ -135,17 +135,19 @@ public class Imprumut {
      *
      * @return
      */
-    public Integer getDays() {
-        return days;
+    public String getReturnBook() {
+        return returnBook;
     }
 
     /**
      *
-     * @param days
+     * @param returnBook
      */
-    public void setDays(Integer days) {
-        this.days = days;
+    public void setReturnBook(String returnBook) {
+        this.returnBook = returnBook;
     }
+
+    
     
     
         

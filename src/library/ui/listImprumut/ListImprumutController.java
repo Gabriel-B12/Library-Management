@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package library.ui.listImprumut;
 
 import java.net.URL;
@@ -13,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,7 +23,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import library.alert.AlertMaker;
-import library.data.Carte;
 import library.data.Imprumut;
 import library.database.DatabaseHandler;
 
@@ -56,18 +50,22 @@ public class ListImprumutController implements Initializable {
     @FXML
     private TableColumn<Imprumut, String> issueCol;
     @FXML
-    private TableColumn<Imprumut, Integer> daysCol;
+    private TableColumn<Imprumut, String> daysCol;
     @FXML
     private TableColumn<Imprumut, String> holderNameCol1;
 
-
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initCol();
     }
     
     /**
-     *
+     * Metoda care primeste query-ul
      * @param q
      */
     public void load(String q){
@@ -82,7 +80,7 @@ public class ListImprumutController implements Initializable {
         holderNameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
         holderNameCol1.setCellValueFactory(new PropertyValueFactory<>("name"));
         issueCol.setCellValueFactory(new PropertyValueFactory<>("dataImprumut"));
-        daysCol.setCellValueFactory(new PropertyValueFactory<>("days"));
+        daysCol.setCellValueFactory(new PropertyValueFactory<>("returnBook"));
         tableView.setItems(list);
     }
     
@@ -98,8 +96,8 @@ public class ListImprumutController implements Initializable {
                 String isbn = rs.getString("isbn");
                 String bookTitle = rs.getString("titlu");
                 Timestamp data = rs.getTimestamp("dataImprumut");
-                Integer days = Math.toIntExact(TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - data.getTime())) + 1;
-                Imprumut imp = new Imprumut(counter, isbn, bookTitle,username,name ,formatDateTimeString(new Date(data.getTime())), days);
+                Date days = rs.getDate("dataR");
+                Imprumut imp = new Imprumut(counter, isbn, bookTitle,username,name ,formatDateTimeString(new Date(data.getTime())), formatDateTimeString(days));
                 list.add(imp);
                 
             }
@@ -109,12 +107,12 @@ public class ListImprumutController implements Initializable {
     }
 
     /**
-     *
+     * Formatare data
      * @param date
      * @return
      */
     public static String formatDateTimeString(Date date) {
-        SimpleDateFormat DATE_FORMAT =new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+        SimpleDateFormat DATE_FORMAT =new SimpleDateFormat("dd-MM-yyyy");
         return DATE_FORMAT.format(date);
     }
 

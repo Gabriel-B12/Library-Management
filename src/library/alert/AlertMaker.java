@@ -7,19 +7,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.events.JFXDialogEvent;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -30,9 +25,9 @@ import javafx.stage.Stage;
 public class AlertMaker {
 
     /**
-     * Metoda folosita pentru a afisa o ferestra simpla cu un tittlu si un mesaj
-     * @param title
-     * @param content
+     * Metoda folosita pentru a afisa o ferestra simpla cu un titlu si un mesaj
+     * @param title titlul 
+     * @param content mesajul 
      */
     public static void showSimpleAlert(String title, String content) {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -44,7 +39,7 @@ public class AlertMaker {
     }
 
     /**
-     *
+     *Afisare eroare
      * @param title
      * @param content
      */
@@ -57,82 +52,9 @@ public class AlertMaker {
         alert.showAndWait();
     }
 
-    /**
-     *
-     * @param ex
-     */
-    public static void showErrorMessage(Exception ex) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error occured");
-        alert.setHeaderText("Error Occured");
-        alert.setContentText(ex.getLocalizedMessage());
-
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        ex.printStackTrace(pw);
-        String exceptionText = sw.toString();
-
-        Label label = new Label("The exception stacktrace was:");
-
-        TextArea textArea = new TextArea(exceptionText);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-        GridPane expContent = new GridPane();
-        expContent.setMaxWidth(Double.MAX_VALUE);
-        expContent.add(label, 0, 0);
-        expContent.add(textArea, 0, 1);
-
-        alert.getDialogPane().setExpandableContent(expContent);
-
-        styleAlert(alert);
-        alert.showAndWait();
-    }
 
     /**
-     *
-     * @param ex
-     * @param title
-     * @param content
-     */
-    public static void showErrorMessage(Exception ex, String title, String content) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error occured");
-        alert.setHeaderText(title);
-        alert.setContentText(content);
-
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        ex.printStackTrace(pw);
-        String exceptionText = sw.toString();
-
-        Label label = new Label("The exception stacktrace was:");
-
-        TextArea textArea = new TextArea(exceptionText);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-        GridPane expContent = new GridPane();
-        expContent.setMaxWidth(Double.MAX_VALUE);
-        expContent.add(label, 0, 0);
-        expContent.add(textArea, 0, 1);
-
-        alert.getDialogPane().setExpandableContent(expContent);
-        alert.showAndWait();
-    }
-
-    /**
-     *
+     *Afiseaza o ferestra cu un mesaj si un buton okay
      * @param root
      * @param nodeToBeBlurred
      * @param controls
@@ -165,8 +87,8 @@ public class AlertMaker {
     }
 
     /**
-     *
-     * @param alert
+     * Metoda folosita pentru a customiza o fereastra
+     * @param alert 
      */
     public static void styleAlert(Alert alert) {
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();

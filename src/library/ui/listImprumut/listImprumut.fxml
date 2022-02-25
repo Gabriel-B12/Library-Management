@@ -8,19 +8,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="748.0" stylesheets="@../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.ui.listImprumut.ListImprumutController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="872.0" stylesheets="@../../../resources/dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="library.ui.listImprumut.ListImprumutController">
    <children>
       <AnchorPane id="AnchorPane" fx:id="contentPane" prefHeight="546.0" prefWidth="789.0" stylesheets="@../../../resources/dark-theme.css">
          <children>
-            <TableView fx:id="tableView" layoutX="10.0" prefHeight="400.0" prefWidth="642.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <TableView fx:id="tableView" layoutX="10.0" prefHeight="400.0" prefWidth="748.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <columns>
                   <TableColumn fx:id="idCol" maxWidth="100.0" minWidth="42.0" prefWidth="42.0" text="No" />
-                  <TableColumn fx:id="bookIDCol" maxWidth="3000.0" minWidth="80.0" prefWidth="127.0" text="Book ISBN" />
-                  <TableColumn fx:id="bookNameCol" prefWidth="88.0" text="Book Name" />
-                  <TableColumn fx:id="holderNameCol" prefWidth="144.0" text="Issued To" />
-                  <TableColumn fx:id="holderNameCol1" prefWidth="75.0" text="Name" />
-                  <TableColumn fx:id="issueCol" minWidth="100.0" prefWidth="75.0" text="Date of Issue" />
-                  <TableColumn fx:id="daysCol" maxWidth="100.0" minWidth="75.0" prefWidth="75.0" text="Days" />
+                  <TableColumn fx:id="bookIDCol" maxWidth="3000.0" minWidth="80.0" prefWidth="124.0" text="Book ISBN" />
+                  <TableColumn fx:id="bookNameCol" prefWidth="156.0" text="Book Name" />
+                  <TableColumn fx:id="holderNameCol" prefWidth="113.0" text="Issued To" />
+                  <TableColumn fx:id="holderNameCol1" prefWidth="146.0" text="Name" />
+                  <TableColumn fx:id="issueCol" minWidth="90.0" prefWidth="146.0" text="Date of Issue" />
+                  <TableColumn fx:id="daysCol" maxWidth="202.0" minWidth="75.0" prefWidth="140.0" text="Return Date" />
                </columns>
                <contextMenu>
                   <ContextMenu>

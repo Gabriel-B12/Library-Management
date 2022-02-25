@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package library.database;
 
 import java.sql.PreparedStatement;
@@ -18,7 +14,7 @@ import library.data.User;
 public class DataHelper {
 
     /**
-     *
+     * Metoda verifica daca exista un anumit user in data de baza
      * @param id
      * @return
      */
@@ -39,7 +35,7 @@ public class DataHelper {
     }
     
     /**
-     *
+     * Metoda folosita pentru a insera un user nou in baza de date
      * @param user
      * @return
      */
@@ -63,7 +59,7 @@ public class DataHelper {
     }
     
     /**
-     *
+     * Metoda verifica daca exista o anumita carte in baza de date
      * @param id
      * @return
      */
@@ -83,6 +79,11 @@ public class DataHelper {
         return false;
     }
     
+    /**
+     * Metoda verifica daca exista o anumita carte in baza de date
+     * @param id
+     * @return
+     */
     public static boolean existaCarte(String id) {
         try {
             String checkstmt = "SELECT COUNT(*) FROM CARTE WHERE isbn=?";
@@ -100,7 +101,7 @@ public class DataHelper {
     }
     
     /**
-     *
+     * metoda verifica daca exista un anumit imprumut in baza de date
      * @param bookID
      * @param userID
      * @return
@@ -122,6 +123,12 @@ public class DataHelper {
         return false;
     }
     
+    /**
+     * Metoda verifica daca exista o anumita cerere in baza de date
+     * @param bookID
+     * @param userID
+     * @return
+     */
     public static boolean existaCerere(int bookID,int userID) {
         try {
             String checkstmt = "SELECT COUNT(*) FROM CERERE WHERE bookID=? and userId=?";
@@ -140,7 +147,7 @@ public class DataHelper {
     }
     
     /**
-     *
+     * Metoda folosita pentru a insera o carte noua
      * @param carte
      * @return
      */

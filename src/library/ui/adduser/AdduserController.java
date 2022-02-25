@@ -50,7 +50,12 @@ public class AdduserController implements Initializable {
     private CheckBox isAdmin;
     
     private Boolean isInEditMode = false;
-
+    
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        handler = DatabaseHandler.getInstance();
@@ -81,7 +86,10 @@ public class AdduserController implements Initializable {
             AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "Duplicate member id", "Member with same id exists.\nPlease use new ID");
             return;
         }
-        User user = new User(1,username1, nume1, prenume1, email1,mobile1,"0",password1,isAdmin1);
+        String citit="0";
+        if(isAdmin1)
+            citit="-";
+        User user = new User(1,username1, nume1, prenume1, email1,mobile1,citit,password1,isAdmin1);
         boolean result = DataHelper.insertNewUser(user);
         if (result) {
             AlertMaker.showMaterialDialog(rootPane, mainContainer, new ArrayList<>(), "New member added", username1 + " has been added");
@@ -110,7 +118,7 @@ public class AdduserController implements Initializable {
     }
 
     /**
-     *
+     * Editare user
      * @param member
      */
     public void editUser(User member) {

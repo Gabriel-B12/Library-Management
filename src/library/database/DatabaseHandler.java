@@ -4,11 +4,13 @@ package library.database;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -27,6 +29,8 @@ public final class DatabaseHandler {
     private static DatabaseHandler handler = null;
     
     private static final String DB_URL = "jdbc:mysql://localhost:3306/app";
+    private String user="root";
+    private String pass="admin";
     private static Connection con = null;
     private static Statement st = null;
     
@@ -51,7 +55,7 @@ public final class DatabaseHandler {
     
     void createConnection(){
         try{
-            con = DriverManager.getConnection(DB_URL,"root","admin");
+            con = DriverManager.getConnection(DB_URL,user,pass);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -104,8 +108,9 @@ public final class DatabaseHandler {
                     +"  isAdmin boolean default false"
                     +" )");
                 
-                st.execute("INSERT INTO UTILIZATOR (username,nume,prenume,email,mobile,password,isAdmin) VALUES ("+
+                st.execute("INSERT INTO UTILIZATOR (username,nume,prenume,email,mobile,citit,password,isAdmin) VALUES ("+
                 "'admin',"+
+                "'-',"+
                 "'-',"+
                 "'-',"+
                 "'-',"+
@@ -137,6 +142,7 @@ public final class DatabaseHandler {
                     +"  bookID int  ,\n"
                     +"  userID int ,\n"
                     +"  dataImprumut timestamp default CURRENT_TIMESTAMP,\n"
+                    +"  dataR date ,\n"
                     +"  FOREIGN KEY (bookID) REFERENCES CARTE(id),\n"
                     +"  FOREIGN KEY (userID) REFERENCES UTILIZATOR(id)"
                     +" )");
@@ -161,7 +167,7 @@ public final class DatabaseHandler {
                     +"  id int NOT NULL AUTO_INCREMENT PRIMARY KEY ,\n"
                     +"  bookID int  ,\n"
                     +"  userID int ,\n"
-                    +"  data timestamp default CURRENT_TIMESTAMP,\n"
+                    +"  data date,\n"
                     +"  status varchar(100),\n"
                     +"  FOREIGN KEY (bookID) REFERENCES CARTE(id),\n"
                     +"  FOREIGN KEY (userID) REFERENCES UTILIZATOR(id)"
@@ -175,7 +181,7 @@ public final class DatabaseHandler {
    }
     
     /**
-     *1
+     * Stergere carte din baza de date
      * @param book
      * @return
      */
@@ -195,6 +201,11 @@ public final class DatabaseHandler {
         return false;
     }
     
+    /**
+     * Stergere cerere din baza de date
+     * @param c
+     * @return
+     */
     public boolean deleteCerere(Cerere c) {
         try {
             String deleteStatement = "DELETE FROM CERERE WHERE id= ?";
@@ -212,7 +223,7 @@ public final class DatabaseHandler {
     }
 
     /**
-     *
+     * Update carte in baza de date
      * @param book
      * @return
      */
@@ -237,7 +248,7 @@ public final class DatabaseHandler {
     }
 
     /**
-     *
+     * Stergere user din baza de date
      * @param member
      * @return
      */
@@ -257,7 +268,7 @@ public final class DatabaseHandler {
         return false;
     }
 
-    /**
+    /** Update user in baza de date
      *
      * @param member
      * @return
@@ -283,6 +294,35 @@ public final class DatabaseHandler {
         return false;
     }
     
+    /**
+     * Update imprumut in baza de date
+     * @param bookID
+     * @param userID
+     * @param data
+     * @return
+     */
+    public boolean updateImprumut(int bookID,int userID, Date data) {
+        try {
+            String update = "UPDATE IMPRUMUT SET dataR=? WHERE bookID=? and userID=?";
+            PreparedStatement stmt = con.prepareStatement(update);
+            stmt.setDate(1, data);
+            stmt.setInt(2,bookID);
+            stmt.setInt(3,userID);
+   
+            int res = stmt.executeUpdate();
+            return (res > 0);
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return false;
+    }
+    /**
+     * Update cerere in baza de date
+     * @param s1
+     * @param s2
+     * @return
+     */
     public boolean updateCerere(String s1,int s2) {
         try {
             String update = "UPDATE CERERE SET STATUS=? WHERE ID=?";
@@ -298,7 +338,7 @@ public final class DatabaseHandler {
         return false;
     }
     /**
-     *
+     * Executare query
      * @param query
      * @return
      */
@@ -316,7 +356,7 @@ public final class DatabaseHandler {
     }
     
     /**
-     *
+     * Statement execute
      * @param qu
      * @return
      */
@@ -395,7 +435,7 @@ public final class DatabaseHandler {
     }
     
     /**
-     *
+     * Stergere imprumut din baza de date
      * @param imp
      * @return
      */

@@ -342,7 +342,7 @@
                                              <contextMenu>
                                                 <ContextMenu>
                                                    <items>
-                                                      <MenuItem mnemonicParsing="false" onAction="#loadAcceptRequest" text="Delete" />
+                                                      <MenuItem mnemonicParsing="false" onAction="#loadAcceptRequest" text="Accept" />
                                                       <MenuItem mnemonicParsing="false" onAction="#loadDenyRequest" text="Deny" />
                                                    </items>
                                                    <styleClass>

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package library.ui.addbook;
 
 import com.jfoenix.controls.JFXButton;
@@ -111,7 +107,7 @@ public class AddbookController implements Initializable {
     }
 
     /**
-     *
+     * Editare carte
      * @param book
      */
     public void editBook(Carte book) {

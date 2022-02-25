@@ -35,7 +35,11 @@ public class LoginController implements Initializable {
     @FXML
     private Label label;
 
-   
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new Thread(() -> {

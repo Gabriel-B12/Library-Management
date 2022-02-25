@@ -23,7 +23,7 @@ public class User {
     Boolean isAdmin;
 
     /**
-     *
+     * Constructor User
      * @param id
      * @param username
      * @param nume
